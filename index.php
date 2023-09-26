@@ -21,41 +21,13 @@ session_start();
     }
     ?>
     <div class="container">
-        <div class="navbar">
-            <div class="logo">
-                <a href="/">
-                    <h1 style="color: #1d3557">
-                        Shop<span style="color: #e63946">ify</span>
-                    </h1>
-                </a>
-            </div>
-            <div class="navs">
-                <ul>
-                    <li><a href="./vehicles.html">Products</a></li>
-                    <li><a href="">About</a></li>
-                    <li><a href="">Contact Us</a></li>
-                </ul>
-            </div>
-            <div class="navs account">
-                <ul>
-                    <li><a href="">Signup</a></li>
-                    <li><a href="">Login</a></li>
-                    <li>
-                        <a href="">Dashboard</a>
-                    </li>
-                    <li>Cart: <span class="cart-items">
-                            <?php
-                            echo $_SESSION["cart"] ?? 0;
-                            ?>
-                        </span></li>
-                </ul>
-            </div>
-        </div>
+        <?php include('inc/navbar.php') ?>
+
         <div class="hero">
-            <img src="./img/bg.jpg" alt="" />
+            <img src="./img/shoe.jpg" alt="" />
             <div class="content">
-                <h1 style="font-size: 3rem; color: #e63946">Buy Products</h1>
-                <h1 style="font-size: 3rem">shaped to your life</h1>
+                <h1 style="font-size: 3rem; color: #e63946">Buy Shoes</h1>
+                <h1 style="font-size: 3rem">shaped to your foot</h1>
                 <input type="text" name="" id="" placeholder="Search..." style="padding: 10px" />
                 <input type="submit" value="Search" class="btn-primary" />
             </div>
@@ -64,51 +36,72 @@ session_start();
         <div class="recent">
             <h4 class="title">Recently Added</h4>
             <div class="col">
-                <div class="row">
-                    <div class="card">
-                        <div class="card-img">
-                            <img src="./img/rolex.webp" alt="" />
-                        </div>
-                        <div class="content">
-                            <h3>Rolex</h3>
-                            <p class="seller">Sulav Maharjan</p>
-                            <p class="price">Rs. 200,000</p>
-                            <form action="./server/functions/cart.php" method="post">
-                                <input type="submit" value="Add to cart" class="btn-primary">
-                            </form>
+                <?php
+                include "./server/includes/connection.php";
+                $sql = "SELECT * FROM products LIMIT 3";
+                $res = $conn->query($sql);
+                $prodcuts = mysqli_fetch_all($res, MYSQLI_ASSOC);
+
+
+                // print_r($prodcuts);
+                
+                ?>
+
+                <?php foreach ($prodcuts as $prodcut): ?>
+                    <div class="row">
+                        <div class="card">
+                            <div class="card-img">
+
+
+                                <img src="image/<?php echo basename($prodcut['image']); ?>" alt="" />
+                            </div>
+                            <div class="content">
+                                <h3>
+                                    <?php echo $prodcut['name']; ?>
+                                </h3>
+                                <p class="seller">
+                                    <?php echo $prodcut['description']; ?>
+                                </p>
+                                <p class="price">Rs.
+                                    <?php echo $prodcut['price']; ?>
+                                </p>
+                                <form action="./server/functions/cart.php" method="post">
+                                    <input type="submit" value="Add to cart" class="btn-primary">
+                                </form>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="row">
+                <?php endforeach ?>
+                <!-- <div class="row">
                     <div class="card">
                         <div class="card-img">
-                            <img src="./img/croptop.jpg" alt="" />
+                            <img src="./img/shoe.jpg" alt="" />
                         </div>
                         <div class="content">
                             <h3>Crop Top</h3>
-                            <p class="seller">Sulav Maharjan</p>
+                            <p class="seller">Sachid paudel</p>
                             <p class="price">Rs. 200,000</p>
                             <form action="./server/functions/cart.php" method="post">
                                 <input type="submit" value="Add to cart" class="btn-primary">
                             </form>
                         </div>
                     </div>
-                </div>
-                <div class="row">
+                </div> -->
+                <!-- <div class="row">
                     <div class="card">
                         <div class="card-img">
-                            <img src="./img/spray.webp" alt="" />
+                            <img src="./img/shoe.jpg" alt="" />
                         </div>
                         <div class="content">
                             <h3>Body Spray</h3>
-                            <p class="seller">Sulav Maharjan</p>
+                            <p class="seller">Sachid paudel</p>
                             <p class="price">Rs. 200,000</p>
                             <form action="./server/functions/cart.php" method="post">
                                 <input type="submit" value="Add to cart" class="btn-primary">
                             </form>
                         </div>
                     </div>
-                </div>
+                </div> -->
             </div>
         </div>
         <!-- end recent -->
@@ -130,7 +123,7 @@ session_start();
                     </ul>
                 </div>
 
-                <div class="row">Copyright &copy; 2023 Sulav</div>
+                <div class="row">Copyright &copy; 2023 Sachid</div>
             </div>
         </footer>
     </div>
